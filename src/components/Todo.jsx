@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import todo_icon from '../assets/todo_icon.png'
 import TodoItems from './TodoItems'
 
@@ -29,6 +29,21 @@ const Todo = () => {
     })
   }
 
+  const toggle = (id) => {
+    setTodoList((prevTodos) => {
+      return prevTodos.map((todo)=>{
+        if (todo.id === id) {
+          return {...todo, isCompleted: !todo.isCompleted}
+        }
+        return todo;
+      })
+    })
+  }
+
+  useEffect(()=>{
+    //console.log(todoList);
+  },[todoList])
+
   return (
     <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
 
@@ -45,7 +60,12 @@ const Todo = () => {
 {/*---------- To Do List --------- */}
         <div>
           {todoList.map((item, index)=>{
-            return <TodoItems key={index} text={item.text} id={item.id} isCompleted={item.isCompleted} deleteTask={deleteTask}/>
+            return <TodoItems key={index} 
+                              text={item.text} 
+                              id={item.id} 
+                              isCompleted={item.isCompleted} 
+                              deleteTask={deleteTask}
+                              toggle={toggle}/>
           })}
         </div>
 
